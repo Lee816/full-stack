@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from core.auth.serializers.register import RegisterSerializer
+from core.auth.serializers import RegisterSerializer
 
 class RegisterViewSet(ViewSet):
     serializer_class = RegisterSerializer

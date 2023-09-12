@@ -1,7 +1,7 @@
 from rest_framework import routers
 
 from .user.viewsets import UserViewSet
-from .auth.viewsets.register import RegisterViewSet
+from .auth.viewsets import RegisterViewSet, LoginViewSet
 
 router = routers.SimpleRouter()
 
@@ -11,6 +11,7 @@ router = routers.SimpleRouter()
 # basename - 선택적 인자이지만 가독성을 높여주기 때문에 사용하는 것을 권장
 router.register(r'user',UserViewSet, basename='user')
 router.register(r'auth/register', RegisterViewSet, basename='auth-register')
+router.register(r'auth/login', LoginViewSet, basename='auth-login')
 urlpatterns = [
     *router.urls,
 ]
