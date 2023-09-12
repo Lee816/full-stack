@@ -1,4 +1,4 @@
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import viewsets
 
 from .serializers import UserSerializer
@@ -8,7 +8,7 @@ from .models import User
 
 class UserViewSet(viewsets.ModelViewSet):
     http_method_names = ('patch','get')
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
     
     # 뷰셋이 모든 사용자의 목록을 얻기 위해 사용, 이 메서드는 /user/에 get 요청이 들어올때 호출
