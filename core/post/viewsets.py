@@ -1,6 +1,7 @@
 from rest_framework.permissions import IsAuthenticated, BasePermission, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import action
 
 from core.abstract.viewsets import AbstractViewSet
 from .models import Post
@@ -54,3 +55,27 @@ class PostViewSet(AbstractViewSet):
         self.perform_create(serializer)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    # 좋아요를 추가삭제할 게시물을 검색 - self.get_object() 메서드는 detail 속성이 True로 설정되어 있기 때문에 URL 요청에 전달된 ID를 사용하여 해당 게시물을 자동 반환
+    # self.request 객체에서 요청을 한 사용자도 검색 - remove_like 또는 like 메서드를 호출할 수 있따.
+    # self.serializer_class에 정의된 Serializer 클래스를 사용하여 게시물을 직렬화 하고 응답을 반환
+
+    # api/post/post_pk/like/
+    @action(methods=['post'], detail=True)
+    def like(self, request, *args, **kwargs):
+        post = self.get_object()
+        user = self.request.user
+        user.like(post)
+        serializer = self.serializer_class(post)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # api/post/post_pk/remove_like/
+    @action(methods=['post'], detail=True)
+    def remove_like(self, request, *args, **kwargs):
+        post = self.get_object()
+        user = self.request.user
+        user.remove_like(post)
+        serializer = self.serializer_class(post)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
