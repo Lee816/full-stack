@@ -29,7 +29,7 @@ class UserPermission(BasePermission):
         return False
 
 class PostViewSet(AbstractViewSet):
-    http_method_names = ('post','get')
+    http_method_names = ('post','get','put','delete')
     permission_classes = (IsAuthenticated,)
     serializer_class = PostSerializer
     
