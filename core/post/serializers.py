@@ -3,6 +3,7 @@ from rest_framework.exceptions import ValidationError
 
 from core.abstract.serializers import AbstractSerializer
 from core.user.models import User
+from core.user.serializers import UserSerializer
 from .models import Post
 
 class PostSerializer(AbstractSerializer):
@@ -22,3 +23,11 @@ class PostSerializer(AbstractSerializer):
             raise ValidationError("You can't create a post for another user.")
 
         return value
+    
+    # 직렬화가 필요한 객체 인스턴스를 받아들이고 원시 표현을 반환
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        author = User.objects.get_object_by_public_id(rep['author'])
+        rep['author'] = UserSerializer(author).data
+
+        return rep
