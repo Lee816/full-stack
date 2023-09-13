@@ -140,6 +140,10 @@ REST_FRAMEWORK = {
     ),
     'DEFATULE_FILTER_BACKENDS':
         ['django_filters.rest_framework.DjangoFilterBackend'],
+    # 기본 크기와 결과 페이지 매김을 위한 클래스
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.LimitOffsetPaginaion',
+    'PAGE_SIZE': 15
 }
 
 SIMPLE_JWT = {
