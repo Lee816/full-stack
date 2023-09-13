@@ -30,7 +30,7 @@ class UserPermission(BasePermission):
 
 class PostViewSet(AbstractViewSet):
     http_method_names = ('post','get','put','delete')
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (UserPermission,)
     serializer_class = PostSerializer
     
     # 모든 게시물을 반환한다. 
