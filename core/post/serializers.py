@@ -44,6 +44,7 @@ class PostSerializer(AbstractSerializer):
 
         return instance
     
+    # 좋아효를 판단하는 함수
     def get_liked(self, instance):
         request = self.context.get('request', None)
         
@@ -51,6 +52,7 @@ class PostSerializer(AbstractSerializer):
             return False
         return request.user.has_liked(instance)
 
+    # 좋아요의 개수를 알려주는 함수
     def get_likes_count(self, instance):
         return instance.liked_by.count()
     
