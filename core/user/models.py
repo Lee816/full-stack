@@ -67,3 +67,15 @@ class User(AbstractModel, AbstractBaseUser, PermissionsMixin):
     @property
     def name(self):
         return f'{self.first_name} {self.last_name}'
+    
+    # 아직 좋아요를 누르지 않은 글에 좋아요를 표시하는데 사용
+    def like(self, post):
+        return self.posts_liked.add(post)
+
+    # 게시물에서 좋아요를 제거하는데 사용
+    def remove_like(self, post):
+        return self.posts_liked.remove(post)
+
+    # 사용자가 글에 좋아요를표시한 경우 True를반환
+    def has_liked(self, post):
+        return self.posts_liked.filter(pk=post.pk).exists()
