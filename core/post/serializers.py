@@ -11,9 +11,14 @@ class PostSerializer(AbstractSerializer):
     # 게시물을 생성할 때 요청의 본문에 작성자의 public_id가 전달되어 사용자를 식별하고 게시물에 연결할 수 있다.
     author = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='public_id')
 
+    # 게시물 좋아요 필드
+    # SerializerMethodField - 이 필드에 속성을 지정하려는 값을 반환해주는 사용자 정의 함수를 작성할 수 있는 필드
+    liked = serializers.SerializerMethodField()
+    likes_count = serializers.SerializerMethodField()
+
     class Meta:
         model = Post
-        fields = ['id','author','body','edited','created','updated']
+        fields = ['id','author','body','edited','liked','likes_count','created','updated']
         read_only_fields = ['edited']
     
     # author 필드에 대한 유효성 검사를 수행한다. - 게시물을 작성하는 사용자가 author 필드의 사용자와 동일한지 확인
@@ -38,3 +43,15 @@ class PostSerializer(AbstractSerializer):
         instance = super().update(instance, validated_data)
 
         return instance
+    
+    def get_liked(self, instance):
+        request = self.context.get('request', None)
+        
+        if request is None or request.user.is_anonymous:
+            return False
+        return request.user.has_liked(instance)
+
+    def get_likes_count(self, instance):
+        return instance.liked_by.count()
+    
+    
