@@ -29,3 +29,17 @@ class CommentSerializer(AbstractSerializer):
 
         return rep
     
+    # delete, put, patch 요청이 오면 수정될 객체를 가지고 있는 instance 속성을 제공
+    # get, post 요청은 none 으로 설정
+    def validate_post(self, value):
+        if self.instance:
+            return self.instance.post
+        return value
+    
+    def update(self, instance, validated_data):
+        if not instance.edited:
+            validated_data['edited'] = True
+        instance = super().update(instance, validated_data)
+
+        return instance
+    
