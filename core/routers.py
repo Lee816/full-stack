@@ -1,8 +1,10 @@
-from rest_framework import routers
+# from rest_framework import routers
+from rest_framework_nested import routers
 
 from .user.viewsets import UserViewSet
 from .auth.viewsets import RegisterViewSet, LoginViewSet, RefreshViewSet
 from .post.viewsets import PostViewSet
+from .comment.viewsets import CommentViewSet
 
 router = routers.SimpleRouter()
 
@@ -15,6 +17,11 @@ router.register(r'auth/register', RegisterViewSet, basename='auth-register')
 router.register(r'auth/login', LoginViewSet, basename='auth-login')
 router.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 router.register(r'post', PostViewSet, basename='post')
+# NestedSimpleRouter는 SimpleRouter 클래스의 서브 클래스로 초기화 매개변수를 사용
+# lookup은 부모리소스(PostViewSet)의 인스턴스에 맞는 정규 표현식 변수이다. - post_pk
+posts_router = routers.NestedSimpleRouter(router, r'post', lookup='post')
+posts_router.register(r'comment', CommentViewSet, basename='post-comment')
 urlpatterns = [
     *router.urls,
+    *posts_router.urls,
 ]
