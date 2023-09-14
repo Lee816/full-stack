@@ -18,7 +18,7 @@ class CommentSerializer(AbstractSerializer):
         
     def validate_author(self, value):
         if self.context['request'].user != value:
-            raise ValidationError("You can't create a post for another user.")
+            raise ValidationError("You can't create a comment for another user.")
 
         return value
 
