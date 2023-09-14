@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from core.abstract.viewsets import AbstractViewSet
-from core.post.viewsets import UserPermission
+from core.auth.permissions import UserPermission
 
 from .models import Comment
 from .serializers import CommentSerializer
