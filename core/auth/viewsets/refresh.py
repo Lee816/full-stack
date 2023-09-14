@@ -11,7 +11,7 @@ class RefreshViewSet(viewsets.ViewSet, TokenRefreshView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         try:
-            serializer.is_valid(raise_exceprion=True)
+            serializer.is_valid(raise_exception=True)
         except TokenError as e:
             raise InvalidToken(e.args[0])
 
