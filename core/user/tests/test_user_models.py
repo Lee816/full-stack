@@ -1,7 +1,7 @@
 from django.test import TestCase
 import pytest
 
-from .models import User
+from core.user.models import User
 
 # Create your tests here.
 
