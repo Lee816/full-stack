@@ -6,6 +6,8 @@ from core.fixtures.post import post
 class TestPostViewSet:
     endpoint = '/api/post/'
     
+    # 회원 관련 테스트는 통과 했다는 가정을 나타냄 - client.force_authenticate(user=user)
+    
     def test_list(self, client, user, post):
         client.force_authenticate(user=user)
         response = client.get(self.endpoint)
