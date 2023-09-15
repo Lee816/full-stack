@@ -3,7 +3,7 @@ import pytest
 
 from core.fixtures.user import user
 from core.fixtures.post import post
-from .models import Comment
+from ..models import Comment
 
 # Create your tests here.
 
