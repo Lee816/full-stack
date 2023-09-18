@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'core.auth',
     'core.post',
     'core.comment',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'CoreRoot.urls'
@@ -150,3 +153,9 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN' : True
 }
+
+# corsheaders 설정
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000'
+]
