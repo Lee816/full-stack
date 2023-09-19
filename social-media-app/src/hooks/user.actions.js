@@ -20,7 +20,7 @@ function useUserActions() {
 
     function login(data) {
         return axios.post(`${baseURL}/auth/login/`, data).then((res) => {
-            setUserDate(data)
+            setUserDate(res.data)
             navigate('/')
         })
     }

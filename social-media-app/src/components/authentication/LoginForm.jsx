@@ -2,12 +2,14 @@ import axios from "axios"
 import React, { useState } from "react"
 import { Button, Form } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
+import useUserActions from "../../hooks/user.actions"
 
 function LoginForm() {
     const navigate = useNavigate()
     const [validated, setValidated] = useState(false)
     const [form, setForm] = useState({})
     const [error, setError] = useState(null)
+    const userActions = useUserActions()
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -17,29 +19,14 @@ function LoginForm() {
         }
         setValidated(true)
         const data = {
-            username: form.username,
+            email: form.email,
             password: form.password,
         }
-        axios
-            .post("http://localhost:8000/api/auth/login/", data)
-            .then((res) => {
-                // Registering the account and tokens in the
-                // store
-                localStorage.setItem(
-                    "auth",
-                    JSON.stringify({
-                        access: res.data.access,
-                        refresh: res.data.refresh,
-                        user: res.data.user,
-                    })
-                )
-                navigate("/")
-            })
-            .catch((err) => {
-                if (err.message) {
-                    setError(err.request.response)
-                }
-            })
+        userActions.login(data).catch((err) => {
+            if (err.message) {
+                setError(err.request.response)
+            }
+        })
     }
 
     return (
@@ -51,13 +38,13 @@ function LoginForm() {
             onSubmit={handleSubmit}
         >
             <Form.Group className="mb-3">
-                <Form.Label>Username</Form.Label>
+                <Form.Label>Email</Form.Label>
                 <Form.Control
-                    value={form.username}
-                    onChange={(e) => setForm({ ...form, username: e.target.value })}
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
                     required
-                    type="text"
-                    placeholder="Enter username"
+                    type="email"
+                    placeholder="Enter email"
                 />
                 <Form.Control.Feedback type="invalid">
                     This field is required.
