@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import useUserActions from "../../hooks/user.actions";
 
 function RegistrationForm() {
     // navigate Hook 은 요청이 성공적으로 이루어지면 홈페이지로 이동하는데 도움을 준다.
@@ -10,6 +11,7 @@ function RegistrationForm() {
     const [validated, setValidated] = useState(false);
     const [form, setForm] = useState({});
     const [error, setError] = useState(null);
+    const userActions = useUserActions()
 
     // 폼 제출 처리 함수
     const handleSubmit = (event) => {
@@ -27,25 +29,11 @@ function RegistrationForm() {
             last_name: form.last_name,
             bio: form.bio
         };
-
-        // axios를 사용하여 API에 POST요청
-        axios
-            .post("http://localhost:8000/api/auth/register/", data)
-            .then((res) => {
-                localStorage.setItem(
-                    'auth', JSON.stringify({
-                        access: res.data.access,
-                        refresh: res.data.refresh,
-                        user: res.data.user,
-                    })
-                )
-                navigate('/')
-            })
-            .catch((err) => {
-                if (err.message) {
-                    setError(err.request.response)
-                }
-            })
+        userActions.register(data).catch((err) => {
+            if (err.message) {
+                setError(err.request.response)
+            }
+        })
     }
 
     return (
