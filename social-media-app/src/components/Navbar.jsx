@@ -15,7 +15,7 @@ function Navigationbar() {
                 <Navbar.Brand className="fw-bold" href="#home">
                     Postagram
                 </Navbar.Brand>
-                <Navbar.Collapse className="jsutify-content-end">
+                <Navbar.Collapse className="justify-content-end">
                     <Nav>
                         <NavDropdown
                             title={<Image src={randomAvatar()} roundedCircle width={36} height={36} />}
