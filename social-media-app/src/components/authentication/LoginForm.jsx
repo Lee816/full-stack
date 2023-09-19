@@ -1,11 +1,8 @@
-import axios from "axios"
 import React, { useState } from "react"
 import { Button, Form } from "react-bootstrap"
-import { useNavigate } from "react-router-dom"
 import { useUserActions } from "../../hooks/user.actions"
 
 function LoginForm() {
-    const navigate = useNavigate()
     const [validated, setValidated] = useState(false)
     const [form, setForm] = useState({})
     const [error, setError] = useState(null)
