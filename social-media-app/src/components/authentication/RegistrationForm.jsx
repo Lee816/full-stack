@@ -1,50 +1,48 @@
-import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import { useUserActions } from "../../hooks/user.actions";
+import React, { useState } from "react"
+import { Button, Form } from "react-bootstrap"
+
+import { useUserActions } from "../../hooks/user.actions"
 
 function RegistrationForm() {
-    // validated, form, error 상태는 각각 폼이 유효한지 여부, 폼의 각 필드값, 요청이 통과하지 않을 경우 표시할 오류 메시지에 사용
-    const [validated, setValidated] = useState(false);
-    const [form, setForm] = useState({});
-    const [error, setError] = useState(null);
+    const [validated, setValidated] = useState(false)
+    const [form, setForm] = useState({})
+    const [error, setError] = useState(null)
     const userActions = useUserActions()
 
-    // 폼 제출 처리 함수
     const handleSubmit = (event) => {
-        event.preventDefault();
-        const registrationForm = event.currentTarget;
+        event.preventDefault()
+        const registrationForm = event.currentTarget
         if (registrationForm.checkValidity() === false) {
-            event.stopPropagation();
+            event.stopPropagation()
         }
-        setValidated(true);
+        setValidated(true)
         const data = {
             username: form.username,
             password: form.password,
             email: form.email,
             first_name: form.first_name,
             last_name: form.last_name,
-            bio: form.bio
-        };
+            bio: form.bio,
+        }
         userActions.register(data).catch((err) => {
             if (err.message) {
                 setError(err.request.response)
             }
         })
     }
-
     return (
         <Form
-            id='registration-form'
+            id="registration-form"
             className="border p-4 rounded"
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
         >
-            <Form.Group className="mb-3">
+            <Form.Group class="mb-3">
                 <Form.Label>First Name</Form.Label>
                 <Form.Control
                     value={form.first_name}
-                    onChange={(e) => setForm({ form, first_name: e.target.value })}
+                    onChange={(e) => setForm({ ...form, first_name: e.target.value })}
                     required
                     type="text"
                     placeholder="Enter first name"
@@ -54,10 +52,10 @@ function RegistrationForm() {
                 </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3">
-                <Form.Label>Last Name</Form.Label>
+                <Form.Label>Last name</Form.Label>
                 <Form.Control
                     value={form.last_name}
-                    onChange={(e) => setForm({ form, last_name: e.target.value })}
+                    onChange={(e) => setForm({ ...form, last_name: e.target.value })}
                     required
                     type="text"
                     placeholder="Enter last name"
@@ -70,7 +68,7 @@ function RegistrationForm() {
                 <Form.Label>Username</Form.Label>
                 <Form.Control
                     value={form.username}
-                    onChange={(e) => setForm({ form, username: e.target.value })}
+                    onChange={(e) => setForm({ ...form, username: e.target.value })}
                     required
                     type="text"
                     placeholder="Enter username"
@@ -83,7 +81,7 @@ function RegistrationForm() {
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
                     value={form.email}
-                    onChange={(e) => setForm({ form, email: e.target.value })}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
                     required
                     type="email"
                     placeholder="Enter email"
@@ -96,7 +94,8 @@ function RegistrationForm() {
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                     value={form.password}
-                    onChange={(e) => setForm({ form, password: e.target.value })}
+                    minLength="8"
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
                     required
                     type="password"
                     placeholder="Password"
@@ -109,8 +108,9 @@ function RegistrationForm() {
                 <Form.Label>Bio</Form.Label>
                 <Form.Control
                     value={form.bio}
-                    onChange={(e) => setForm({ form, WebTransportBidirectionalStream: e.target.value })}
-                    type="textarea"
+                    onChange={(e) => setForm({ ...form, bio: e.target.value })}
+                    as="textarea"
+                    rows={3}
                     placeholder="A simple bio ... (Optional)"
                 />
             </Form.Group>
