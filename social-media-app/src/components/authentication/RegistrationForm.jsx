@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import useUserActions from "../../hooks/user.actions";
+import {useUserActions} from "../../hooks/user.actions";
 
 function RegistrationForm() {
     // navigate Hook 은 요청이 성공적으로 이루어지면 홈페이지로 이동하는데 도움을 준다.

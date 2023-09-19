@@ -38,4 +38,13 @@ function useUserActions() {
     }
 }
 
+function getUser() {
+    const auth = JSON.parse(localStorage.getItem('auth')) || null;
+    if (auth) {
+        return auth.user;
+    } else {
+        return null;
+    }
+}
+
 export default useUserActions
