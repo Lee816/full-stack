@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   nginx:
-    container_name: postgram_web
+    container_name: postagram_web
     restart: always
     image: nginx:latest
     volumes:
@@ -12,21 +12,20 @@ services:
     depends_on:
       - api
   db:
-    container_name: postgram_db
+    container_name: postagram_db
     image: postgres:14.3-alpine
     env_file: .env
     volumes:
       - postgres_data:/var/lib/postgresql/data/
   api:
-    container_name: postgram_api
+    container_name: postagram_api
     build: .
     restart: always
     env_file: .env
     ports:
       - "8000:8000"
     command: >
-      sh -c "python manage.py migrate --no-input && gunicorn
-             CoreRoot.wsgi:application --bind 0.0.0.0:8000"
+      sh -c "python manage.py migrate --no-input && gunicorn CoreRoot.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - .:/app
       - uploads_volume:/app/uploads
