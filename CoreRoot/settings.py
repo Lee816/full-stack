@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,13 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+ENV = os.environ.get("ENV")
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2n)zjxzxx*wf3=3_-id!pow4s8)pao(sj^0^tkw4=o5$i_2&3&'
+SECRET_KEY = os.environ.get("SECRET_KEY", default='django-insecure-2n)zjxzxx*wf3=3_-id!pow4s8)pao(sj^0^tkw4=o5$i_2&3&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if ENV == "PROD" else True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", default='*').split(',')
 
 
 # Application definition
@@ -86,11 +92,11 @@ WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'coredb',
-        'USER': 'core',
-        'PASSWORD': 'wCh29&HE&T83',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME':  os.getenv("DATABASE_NAME","coredb"),
+        'USER': os.getenv("DATABASE_USER","core"),
+        'PASSWORD': os.getenv("DATABASE_PASSWORD","1234"),
+        'HOST': os.getenv("DATABASE_HOST","localhost"),
+        'PORT': os.getenv("DATABASE_PORT","5432"),
     }
 }
 
