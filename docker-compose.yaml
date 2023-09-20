@@ -19,18 +19,19 @@ services:
       - postgres_data:/var/lib/postgresql/data/
   api:
     container_name: postgram_api
-    bulid: .
+    build: .
     restart: always
     env_file: .env
     ports:
       - "8000:8000"
     command: >
-      sh -c "python manage.py migrate --no--input && gunicorn CoreRoot.wsgi:application --bind 0.0.0.0:8000"
+      sh -c "python manage.py migrate --no-input && gunicorn
+             CoreRoot.wsgi:application --bind 0.0.0.0:8000"
     volumes:
-      - .:app
+      - .:/app
       - uploads_volume:/app/uploads
     depends_on:
       - db
-  volumes:
-    uploads_volume:
-    postgres_data:
+volumes:
+  uploads_volume:
+  postgres_data:
