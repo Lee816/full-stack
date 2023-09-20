@@ -1,0 +1,12 @@
+name: Build, Test and Deploy Postagram
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/chechout@v2
+      - name: Listing files in a directory
+        run: ls -a
