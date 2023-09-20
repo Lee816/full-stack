@@ -1,12 +1,20 @@
-name: Build, Test and Deploy Postagram
+name: Build, Test and Deploy Postagram backend
+
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/chechout@v2
-      - name: Listing files in a directory
-        run: ls -a
+      - uses: actions/checkout@v3
+      - name: Injecting environment vars
+        run: |
+          echo "${{ secrets.TEST_SECRETS }}" >> .env
+      - name: Building Docker containers
+        run: |
+          docker-compose up -d --build
+      - name: Running Tests inside Docker containers
+        run: |
+          docker-compose exec -T api pytest
