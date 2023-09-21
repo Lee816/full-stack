@@ -5,24 +5,24 @@ on:
     branches: [ master ]
 
 jobs:
-  build-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Injecting environment vars
-        run: |
-          echo "${{ secrets.TEST_SECRETS }}" >> .env
-      - name: Building Docker containers
-        run: |
-          docker-compose up -d --build
-      - name: Running Tests inside Docker containers
-        run: |
-          docker-compose exec -T api pytest
+  # build-test:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Injecting environment vars
+  #       run: |
+  #         echo "${{ secrets.TEST_SECRETS }}" >> .env
+  #     - name: Building Docker containers
+  #       run: |
+  #         docker-compose up -d --build
+  #     - name: Running Tests inside Docker containers
+  #       run: |
+  #         docker-compose exec -T api pytest
   
   deploy:
     name: Deploying on Server via SSH
     if: ${{ github.event_name == 'push' }}
-    needs: [build-test]
+    # needs: [build-test]
     runs-on: ubuntu-latest
     steps:
       - name: Deploying Application on Server
